@@ -1,10 +1,14 @@
 package sk.akademiasovy.java;
 
+import java.util.Random;
+
 public class Car {
     private String brand;
     private int speed;
     private boolean engine;
     private float gasConsumption;
+    private boolean frontWiper;
+    private String plate;
 
 
     // construktor
@@ -13,6 +17,9 @@ public class Car {
         engine=false;
         gasConsumption=7.9f;
         brand=null;
+        frontWiper=false;
+        generatePlate(null);
+
     }
 
     public Car(String brand, float consumption) {
@@ -20,6 +27,16 @@ public class Car {
         engine=false;
         gasConsumption=consumption;
         this.brand=brand;
+        generatePlate(null);
+    }
+
+    public Car(String brand, float consumption, String city) {
+        speed=0;
+        engine=false;
+        gasConsumption=consumption;
+        this.brand=brand;
+        frontWiper=false;
+        generatePlate(city);
     }
 
     public void setBrand(String value){
@@ -47,6 +64,11 @@ public class Car {
         speed+=10;
     }
 
+    public void increaseSpeed (int value) {
+        if(engine && value>0)
+            speed+=value;
+    }
+
     public void decreaseSpeed() {
         speed-=10;
         if(speed<0)
@@ -62,5 +84,34 @@ public class Car {
         price=distance*gasConsumption*costPerLiter/100;
     }
 
+
+    public int getSpeed(){
+        return speed;
+    }
+
+
+    private void generatePlate(String city){
+        switch(city.toLowerCase().trim()){
+            case "gelnica" : plate="GL-"; break;
+            case "presov" : plate="PO-"; break;
+            case "bratislava" : plate="BA-"; break;
+            case "nitra" : plate="NR-"; break;
+            case "senec" : plate="SC-"; break;
+            default: plate="KE-";
+        }
+
+        Random random = new Random();
+        int i;
+        for(i=1;i<=3;i++){
+            int randomNumber=random.nextInt(10);
+            plate=plate+randomNumber;
+        }
+        for(i=1;i<=2;i++){
+            int randomNumber=random.nextInt(26)+'A';
+            plate=plate+(char)randomNumber;
+        }
+        System.out.println("Assigned plate: "+plate);
+
+    }
 
 }
